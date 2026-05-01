@@ -1,40 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>404 - Level Not Found | DaniezOnSFUSD</title>
+    <meta charset="UTF-8">
+    <title>503 - Under Maintenance | DaniezOnSFUSD</title>
     <style>
         :root { --blurple: #5865F2; --soft-black: #1E1E22; --dark-gray: #2B2D31; }
-        body { margin: 0; background-color: var(--soft-black); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; text-align: center; }
-        h1 { font-size: 8rem; color: var(--blurple); animation: float 3s ease-in-out infinite; text-shadow: 0 0 20px rgba(88, 101, 242, 0.4); }
+        body { margin: 0; background-color: var(--soft-black); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; text-align: center; }
+        
+        /* Floating Animation */
+        h1 { font-size: 8rem; color: var(--blurple); margin: 0; animation: float 3s ease-in-out infinite; text-shadow: 0 0 20px rgba(88, 101, 242, 0.4); }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        .container { max-width: 600px; padding: 20px; }
-        .status-tag { background: var(--dark-gray); padding: 5px 15px; border-radius: 20px; color: #57F287; }
-        p { color: #b9bbbe; line-height: 1.6; }
-        .discord-btn { background-color: var(--blurple); color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: 600; }
-        #game-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
-        canvas { border: 4px solid var(--blurple); background: #000; }
-        .snek-trigger { cursor: pointer; text-decoration: underline; color: var(--blurple); }
+        
+        .container { max-width: 600px; padding: 20px; z-index: 1; }
+        .status-tag { background: var(--dark-gray); padding: 5px 15px; border-radius: 20px; color: #FEE75C; font-weight: bold; border: 1px solid #FEE75C; }
+        
+        p { color: #b9bbbe; line-height: 1.6; font-size: 1.1rem; }
+        .dev-name { color: var(--blurple); font-weight: bold; }
+        
+        .discord-btn { display: inline-block; background-color: var(--blurple); color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; font-weight: 600; margin-top: 20px; transition: 0.2s; }
+        .discord-btn:hover { background-color: #4752C4; transform: scale(1.05); }
+
+        /* Snek Game Styles */
+        #game-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+        canvas { border: 4px solid var(--blurple); background: #000; box-shadow: 0 0 30px rgba(88, 101, 242, 0.3); }
+        .snek-trigger { cursor: pointer; text-decoration: underline; color: var(--blurple); font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
-        <span class="status-tag">Status: Patching...</span>
-        <h1>404</h1>
-        <h2>Level Not Found</h2>
-        <p>It looks like this page took a critical hit. | Be back soon! - DaniezOnSFUSD <br>
-           Click the <span class="snek-trigger" onclick="toggleGame()">Snek</span> to play.</p>
-        <a href="https://discord.gg" class="discord-btn">Join the Community</a>
+        <span class="status-tag">HTTP 503: MAINTENANCE MODE</span>
+        <h1>503</h1>
+        <h2>Currently Under Maintenance</h2>
+        <p>
+            <span class="dev-name">DaniezOnSFUSD</span> is currently updating the games for a better experience. 
+            All services will be back up **within 7 days**.
+            <br><br>
+            Bored while waiting? Click the <span class="snek-trigger" onclick="toggleGame()">Snek</span> to play a mini-game.
+        </p>
+        <a href="https://discord.gg" class="discord-btn">Join Discord for Updates</a>
     </div>
+
+    <!-- Hidden Snek Game Overlay -->
     <div id="game-overlay">
         <canvas id="snekGame" width="400" height="400"></canvas>
-        <p>Use Arrow Keys to move. Press ESC to exit.</p>
+        <p style="color: white; margin-top: 15px;">Use **Arrow Keys** to move. Press **ESC** to exit.</p>
     </div>
+
     <script>
-        // Snek game logic
         const canvas = document.getElementById("snekGame"), ctx = canvas.getContext("2d"), box = 20;
         let snake, food, direction, gameInterval;
-        function initGame() { snake = [{ x: 9 * box, y: 10 * box }]; food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box }; direction = "RIGHT"; if(gameInterval) clearInterval(gameInterval); gameInterval = setInterval(draw, 100); }
-        function toggleGame() { document.getElementById("game-overlay").style.display = "flex"; initGame(); }
+
+        function initGame() { 
+            snake = [{ x: 9 * box, y: 10 * box }]; 
+            food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box }; 
+            direction = "RIGHT"; 
+            if(gameInterval) clearInterval(gameInterval); 
+            gameInterval = setInterval(draw, 100); 
+        }
+
+        function toggleGame() { 
+            document.getElementById("game-overlay").style.display = "flex"; 
+            initGame(); 
+        }
+
         document.addEventListener("keydown", e => {
             if(e.key === "Escape") document.getElementById("game-overlay").style.display = "none";
             if(e.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
@@ -42,19 +70,37 @@
             else if(e.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
             else if(e.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
         });
+
         function draw() {
             ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            for(let i = 0; i < snake.length; i++) { ctx.fillStyle = (i === 0) ? "#5865F2" : "#ffffff"; ctx.fillRect(snake[i].x, snake[i].y, box, box); }
+            for(let i = 0; i < snake.length; i++) { 
+                ctx.fillStyle = (i === 0) ? "#5865F2" : "#ffffff"; 
+                ctx.fillRect(snake[i].x, snake[i].y, box, box); 
+            }
             ctx.fillStyle = "#ED4245"; ctx.fillRect(food.x, food.y, box, box);
+            
             let snakeX = snake[0].x, snakeY = snake[0].y;
-            if(direction === "LEFT") snakeX -= box; else if(direction === "UP") snakeY -= box; else if(direction === "RIGHT") snakeX += box; else if(direction === "DOWN") snakeY += box;
-            if(snakeX === food.x && snakeY === food.y) food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box }; else snake.pop();
+            if(direction === "LEFT") snakeX -= box; 
+            else if(direction === "UP") snakeY -= box; 
+            else if(direction === "RIGHT") snakeX += box; 
+            else if(direction === "DOWN") snakeY += box;
+
+            if(snakeX === food.x && snakeY === food.y) {
+                food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
+            } else {
+                snake.pop();
+            }
+
             let newHead = { x: snakeX, y: snakeY };
-            if(snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) { clearInterval(gameInterval); alert("Game Over!"); initGame(); }
+            if(snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
+                clearInterval(gameInterval); alert("Game Over!"); initGame();
+            }
             snake.unshift(newHead);
         }
+
         function collision(head, array) { for(let i = 0; i < array.length; i++) if(head.x === array[i].x && head.y === array[i].y) return true; return false; }
-        // Konami code
+        
+        // Konami code support
         let k = [], c = "ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a";
         document.addEventListener("keydown", e => { k.push(e.key); if (k.toString().indexOf(c) >= 0) { toggleGame(); k = []; } });
     </script>
