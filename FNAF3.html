@@ -11,9 +11,9 @@
         body { margin: 0; background-color: var(--soft-black); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; text-align: center; }
         
         .container { max-width: 600px; padding: 20px; border: 2px solid var(--danger); background: rgba(237, 66, 69, 0.05); border-radius: 8px; z-index: 1; }
-        h1 { font-size: 8rem; color: var(--danger); margin: 0; position: relative; text-shadow: 2px 2px var(--blurple); }
         
-        /* Glitch Effect[cite: 5] */
+        /* Glitch Effect */
+        h1 { font-size: 8rem; color: var(--danger); margin: 0; position: relative; text-shadow: 2px 2px var(--blurple); }
         h1::after { content: '410'; position: absolute; left: 2px; text-shadow: -2px 0 red; top: 0; color: white; background: var(--soft-black); overflow: hidden; clip: rect(0, 900px, 0, 0); animation: noise-anim 2s infinite linear alternate-reverse; }
         @keyframes noise-anim { 0% { clip: rect(10px, 9999px, 40px, 0); } 100% { clip: rect(70px, 9999px, 90px, 0); } }
 
@@ -21,7 +21,7 @@
         p { color: #b9bbbe; line-height: 1.6; font-size: 1.1rem; margin-top: 20px; }
         .sig { color: var(--blurple); font-weight: bold; display: block; margin-top: 15px; }
         
-        /* GOD MODE OVERLAY[cite: 4] */
+        /* GOD MODE OVERLAY */
         #game-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
         #stage-container { position: relative; border: 4px solid var(--danger); border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 0 50px rgba(237, 66, 69, 0.3); }
         
@@ -36,13 +36,13 @@
 </head>
 <body>
     <div class="container">
-        <span class="warning-tag">System Alert: Deletion in Progress</span>[cite: 5]
+        <span class="warning-tag">System Alert: Deletion in Progress</span>
         <h1>410</h1>
-        <h2>Game On The Chopping Block</h2>[cite: 5]
+        <h2>Game On The Chopping Block</h2>
         <p>
             This game has been retired and will be removed! <br>
             Sorry for the inconvenience!
-            <span class="sig">- DaniezOnSFUSD</span>[cite: 5]
+            <span class="sig">- DaniezOnSFUSD</span>
         </p>
         <p style="font-size: 0.9rem;">Play the <span class="snek-trigger" onclick="Engine.boot()">Snek Core</span> before it's gone too.</p>
     </div>
@@ -63,9 +63,6 @@
     </div>
 
 <script>
-/** 
- * SNEK CORE: GOD MODE (410 EDITION)[cite: 4, 5]
- */
 const Engine = {
     canvas: document.getElementById('mainCanvas'),
     ctx: document.getElementById('mainCanvas').getContext('2d'),
@@ -86,7 +83,6 @@ const Engine = {
         this.dir = this.next;
         const head = { x: this.snake[0].x + this.dir.x, y: this.snake[0].y + this.dir.y };
 
-        // Wrap Logic[cite: 4]
         if (head.x < 0) head.x = 29; if (head.x >= 30) head.x = 0;
         if (head.y < 0) head.y = 19; if (head.y >= 20) head.y = 0;
 
@@ -108,13 +104,11 @@ const Engine = {
         this.ctx.fillStyle = "#000";
         this.ctx.fillRect(0, 0, 600, 400);
         
-        // Food[cite: 4]
         const f = this.food[0];
         this.ctx.fillStyle = `hsl(${f.hue}, 100%, 50%)`;
         this.ctx.shadowBlur = 15;
         this.ctx.beginPath(); this.ctx.arc(f.x*20+10, f.y*20+10, 8, 0, Math.PI*2); this.ctx.fill();
 
-        // Rainbow Snake[cite: 4]
         this.snake.forEach((s, i) => {
             this.ctx.fillStyle = `hsl(${(Date.now()/10 + i*15) % 360}, 80%, 60%)`;
             this.ctx.shadowBlur = i === 0 ? 20 : 0;
